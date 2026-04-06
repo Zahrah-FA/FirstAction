@@ -1,41 +1,44 @@
-/**
- * Komponen ActionCard
- * Digunakan untuk menampilkan item panduan dalam bentuk kartu (card)
- * Menerima props 'title' dan 'category'
- */
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+// Menerima data melalui PROPS: item
+export default function ActionCard({ item }) {
+  // STATE: Untuk menyimpan status apakah panduan sudah dibaca atau belum
+  const [isRead, setIsRead] = useState(false);
 
-// Komponen ActionCard untuk menampilkan item dalam list
-export default function ActionCard({ title, category }) {
   return (
-    <TouchableOpacity style={styles.card}>
-      <View>
-        {/* Menampilkan kategori dengan teks kecil */}
-        <Text style={styles.categoryText}>{category}</Text>
-        {/* Menampilkan judul tindakan */}
-        <Text style={styles.titleText}>{title}</Text>
+    <TouchableOpacity 
+      style={[styles.card, isRead && styles.readCard]} 
+      onPress={() => setIsRead(!isRead)} // Toggle state isRead saat kartu diklik
+    >
+      {/* Menampilkan Gambar dari Props */}
+      <Image source={{ uri: item.image }} style={styles.image} />
+      
+      <View style={styles.content}>
+        <Text style={styles.category}>{item.category}</Text>
+        <Text style={styles.title}>{item.title}</Text>
+        {/* Teks dinamis berdasarkan STATE */}
+        <Text style={styles.status}>
+          {isRead ? '✅ Selesai Dibaca' : '📖 Belum Dibaca'}
+        </Text>
       </View>
-      <Text style={styles.iconText}>→</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 10,
-    marginBottom: 12,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    elevation: 3, // Shadow untuk Android
-    borderLeftWidth: 5,
-    borderLeftColor: '#E63946', // Warna merah medis
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginBottom: 15,
+    overflow: 'hidden',
+    elevation: 3,
   },
-  categoryText: { fontSize: 12, color: '#457B9D', fontWeight: 'bold' },
-  titleText: { fontSize: 16, fontWeight: '600', color: '#1D3557', marginTop: 4 },
-  iconText: { fontSize: 18, color: '#A8DADC' }
+  readCard: { backgroundColor: '#E8F5E9', opacity: 0.8 }, // Warna berubah jika sudah dibaca
+  image: { width: 90, height: 90 },
+  content: { padding: 12, flex: 1, justifyContent: 'center' },
+  category: { fontSize: 10, color: '#E63946', fontWeight: 'bold', marginBottom: 2 },
+  title: { fontSize: 16, fontWeight: '600', color: '#1D3557' },
+  status: { fontSize: 11, marginTop: 5, color: '#666', fontStyle: 'italic' }
 });

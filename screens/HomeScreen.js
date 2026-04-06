@@ -1,42 +1,40 @@
-/**
- * HomeScreen - Halaman Utama
- * Mengatur logika pencarian panduan dan menampilkan daftar data dari actionData
- */
-
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import ActionCard from '../components/ActionCard';
 import actionData from '../utils/actionData';
 
 export default function HomeScreen() {
-  // State untuk menyimpan teks pencarian dari user
-  const [search, setSearch] = useState('');
+  // STATE: Untuk menyimpan kategori yang sedang dipilih user
+  const [selectedCategory, setSelectedCategory] = useState('Semua');
+  const categories = ['Semua', 'Pernapasan', 'Luka Luar', 'Cedera Fisik'];
 
-  // Fungsi untuk menyaring (filter) data berdasarkan input user
-  const filteredData = actionData.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
+  // Fungsi Logika: Memfilter data berdasarkan State selectedCategory
+  const filteredData = selectedCategory === 'Semua' 
+    ? actionData 
+    : actionData.filter(item => item.category === selectedCategory);
 
   return (
     <View style={styles.container}>
-      {/* 1. Memberikan komentar sesuai tugas: 
-          Komponen Text untuk judul halaman utama aplikasi FirstAction */}
-      <Text style={styles.headerTitle}>Panduan FirstAction</Text>
-      
-      {/* 2. Komponen TextInput untuk fitur pencarian (Handling Input) */}
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Cari tindakan penyelamatan..."
-        value={search}
-        onChangeText={(text) => setSearch(text)}
-      />
+      <Text style={styles.headerTitle}>FirstAction: Panduan P3K</Text>
 
+      {/* Bar Kategori: Menggunakan State untuk mengubah tampilan tombol aktif */}
+      <View style={styles.categoryContainer}>
+        {categories.map((cat) => (
+          <TouchableOpacity 
+            key={cat} 
+            style={[styles.catBtn, selectedCategory === cat && styles.activeCat]}
+            onPress={() => setSelectedCategory(cat)} // Update state saat tombol kategori ditekan
+          >
+            <Text style={[styles.catText, selectedCategory === cat && styles.activeCatText]}>{cat}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Mengirim data ke ActionCard melalui PROPS 'item' */}
       <FlatList
         data={filteredData}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ActionCard title={item.title} category={item.category} />
-        )}
+        renderItem={({ item }) => <ActionCard item={item} />}
         showsVerticalScrollIndicator={false}
       />
     </View>
@@ -44,27 +42,11 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    padding: 20, 
-    backgroundColor: '#F8F9FA' 
-  },
-  headerTitle: { 
-    fontSize: 24, 
-    fontWeight: 'bold', 
-    color: '#1D3557',
-    marginTop: 25,    // Memberikan jarak dari atas layar agar tidak tertutup notch
-    marginBottom: 10, // Memberikan jarak sedikit ke kotak search di bawahnya
-    // -------------------------
-  },
-  searchBar: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    marginBottom: 20,
-    elevation: 2, // Memberikan sedikit bayangan
-  },
+  container: { flex: 1, padding: 20, backgroundColor: '#F8F9FA' },
+  headerTitle: { fontSize: 22, fontWeight: 'bold', marginTop: 50, marginBottom: 20, color: '#1D3557' },
+  categoryContainer: { flexDirection: 'row', marginBottom: 20, gap: 8, flexWrap: 'wrap' },
+  catBtn: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, backgroundColor: '#ddd' },
+  activeCat: { backgroundColor: '#E63946' },
+  catText: { fontSize: 12, color: '#333' },
+  activeCatText: { color: '#fff', fontWeight: 'bold' }
 });
