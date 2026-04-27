@@ -44,13 +44,26 @@
 // });
 
 //BAB 4
+// import React from 'react';
+// import Profile from './screens/Profile'; // Import halaman profil yang baru dibuat
+// import HomeScreen from './screens/HomeScreen'; // Pastikan import ke HomeScreen
+
+// export default function App() {
+//   return (
+//     <Profile />
+//     //<HomeScreen />
+//   );
+// }
+
+//BAB 5
 import React from 'react';
-import Profile from './screens/Profile'; // Import halaman profil yang baru dibuat
-import HomeScreen from './screens/HomeScreen'; // Pastikan import ke HomeScreen
+import { NavigationContainer } from '@react-navigation/native';
+import Router from './src/navigation/Router';
 
 export default function App() {
   return (
-    <Profile />
-    //<HomeScreen />
+    <NavigationContainer>
+      <Router />
+    </NavigationContainer>
   );
 }
