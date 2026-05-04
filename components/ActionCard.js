@@ -54,7 +54,7 @@ export default function ActionCard({ item }) {
   return (
     <TouchableOpacity 
       style={styles.card} 
-      onPress={() => navigation.navigate('Detail', { actionId: item.id })} // Pindah ke Detail
+      onPress={() => navigation.navigate('DetailScreen', { item: item })}
     >
       <Image source={{ uri: item.image }} style={styles.image} />
       <View style={styles.content}>
@@ -72,3 +72,4 @@ const styles = StyleSheet.create({
   category: { fontSize: 10, color: '#E63946', fontWeight: 'bold' },
   title: { fontSize: 16, fontWeight: '600', color: '#1D3557' }
 });
+
