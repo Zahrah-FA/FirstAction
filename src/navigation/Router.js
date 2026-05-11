@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; // Pastikan nama ini benar
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from '../../screens/HomeScreen';
@@ -8,7 +8,7 @@ import Profile from '../../screens/Profile';
 import DetailScreen from '../../screens/DetailScreen';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator(); // Pastikan tidak ada tanda hubung (-)
 
 function MainTab() {
   return (
@@ -42,9 +42,8 @@ export default function Router() {
         component={MainTab} 
         options={{ headerShown: false }} 
       />
-      {/* GANTI NAMA DI SINI JADI DetailScreen */}
       <Stack.Screen 
-        name="DetailScreen" 
+        name="Detail" 
         component={DetailScreen} 
         options={{ title: 'Detail Pertolongan' }} 
       />
