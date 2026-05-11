@@ -1,89 +1,123 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native'; 
-import ActionCard from '../components/ActionCard';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Add } from 'iconsax-react-native';
+import SearchBar from '../src/components/SearchBar.js';
+import ActionCard from '../components/ActionCard.js';
+import actionData from '../utils/actionData.js';
 
-// PERHATIKAN INI: Saya sesuaikan import-nya tanpa kurung kurawal sesuai file kamu
-import actionData from '../utils/actionData'; 
+const HomeScreen = () => {
+  const navigation = useNavigation();
+  const [searchPhrase, setSearchPhrase] = useState("");
 
-export default function HomeScreen() {
-  const [selectedCategory, setSelectedCategory] = useState('Semua');
-  const categories = ['Semua', 'Fisik', 'Jantung', 'Saraf'];
-
-  // Filter data berdasarkan kategori
-  const filteredData = selectedCategory === 'Semua' 
-    ? actionData 
-    : actionData.filter(item => 
-        item.category.toLowerCase() === selectedCategory.toLowerCase()
-      );
+  // Memastikan data terfilter dengan aman
+  const filteredData = (actionData || []).filter((item) => {
+    const titleMatch = item?.title?.toLowerCase().includes(searchPhrase.toLowerCase());
+    const categoryMatch = item?.category?.toLowerCase().includes(searchPhrase.toLowerCase());
+    return titleMatch || categoryMatch;
+  });
 
   return (
-    <SafeAreaView style={styles.container}>
-      
-      {/* HEADER TETAP (DIAM) */}
-      <View style={styles.fixedHeader}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.headerTitle}>First Action</Text>
-          <Text style={styles.headerSubtitle}>Pertolongan Pertama Darurat</Text>
-        </View>
-
-        <View style={styles.categoryContainer}>
-          {categories.map((cat) => (
-            <TouchableOpacity 
-              key={cat} 
-              style={[styles.catBtn, selectedCategory === cat && styles.activeCat]}
-              onPress={() => setSelectedCategory(cat)}
-            >
-              <Text style={[styles.catText, selectedCategory === cat && styles.activeCatText]}>{cat}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+    <View style={styles.container}>
+      {/* Header Section */}
+      <View style={styles.header}>
+        <Text style={styles.title}>FirstAction</Text>
+        <Text style={styles.subtitle}>Pertolongan Pertama Jadi Mudah</Text>
       </View>
 
-      {/* FLATLIST (BAGIAN YANG NYAMBUNG KE KARTU PENYAKIT) */}
-      {filteredData && filteredData.length > 0 ? (
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item) => item.id.toString()} // toString biar aman
-          renderItem={({ item }) => <ActionCard item={item} />}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listContent}
-        />
-      ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Data penyakit tidak ditemukan...</Text>
-        </View>
-      )}
+      {/* Search Section */}
+      <SearchBar 
+        searchPhrase={searchPhrase} 
+        setSearchPhrase={setSearchPhrase} 
+      />
 
-    </SafeAreaView>
+      {/* List Section */}
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <ActionCard
+            item={item}
+            onPress={() => navigation.navigate('Detail', { data: item })}
+          />
+        )}
+        contentContainerStyle={styles.listContent}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>
+              {searchPhrase === ""
+                ? "Data belum tersedia"
+                : `Tidak ditemukan hasil untuk "${searchPhrase}"`}
+            </Text>
+          </View>
+        }
+      />
+
+      {/* Floating Action Button */}
+      <TouchableOpacity 
+        style={styles.fab}
+        onPress={() => navigation.navigate('AddEmergency')}
+        activeOpacity={0.7}
+      >
+        <Add size="32" color="#FFF" variant="Linear" />
+      </TouchableOpacity>
+    </View>
   );
-}
+};
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F9FA' },
-  fixedHeader: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    paddingTop: 30, 
+  container: { 
+    flex: 1, 
+    backgroundColor: '#FFF' 
+  },
+  header: { 
+    paddingHorizontal: 20, 
+    paddingTop: 60, 
+    paddingBottom: 10,
+    backgroundColor: '#FFF' 
+  },
+  title: { 
+    fontSize: 28, 
+    fontWeight: 'bold', 
+    color: '#E63946' 
+  },
+  subtitle: { 
+    fontSize: 14, 
+    color: '#666', 
+    marginTop: 5 
+  },
+  listContent: { 
+    paddingHorizontal: 20, 
+    paddingBottom: 100,
+    flexGrow: 1 // Penting agar ListEmptyComponent bisa centering
+  },
+  emptyContainer: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    marginTop: -50 // Menyesuaikan posisi agar benar-benar di tengah visual
+  },
+  emptyText: { 
+    color: '#999', 
+    fontSize: 16,
+    textAlign: 'center'
+  },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    backgroundColor: '#E63946',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    zIndex: 10,
-  },
-  titleWrapper: { marginBottom: 15 },
-  headerTitle: { fontSize: 26, fontWeight: 'bold', color: '#1D3557' },
-  headerSubtitle: { fontSize: 14, color: '#457B9D' },
-  categoryContainer: { flexDirection: 'row', gap: 10 },
-  catBtn: { 
-    paddingHorizontal: 15, 
-    paddingVertical: 8, 
-    borderRadius: 20, 
-    backgroundColor: '#E9ECEF' 
-  },
-  activeCat: { backgroundColor: '#E63946' },
-  catText: { fontSize: 13, color: '#495057' },
-  activeCatText: { color: '#fff', fontWeight: 'bold' },
-  listContent: { padding: 20, paddingBottom: 50 }
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  }
 });
