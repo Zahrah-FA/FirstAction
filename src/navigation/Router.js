@@ -12,6 +12,9 @@ import DetailScreen from '../../screens/DetailScreen.js';
 import Login from '../screens/Login';
 import AddEmergencyForm from '../screens/AddEmergencyForm';
 
+import EditBlogForm from '../screens/EditBlogForm'; 
+import { TransitionPresets } from '@react-navigation/stack';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +46,19 @@ const Router = () => {
         options={{ headerShown: false }} 
       />
       
+      <Stack.Screen
+        name="EditBlog"
+        component={EditBlogForm}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          animationTypeForReplace: "pop",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          ...TransitionPresets.SlideFromRight, // Efek animasi bergeser masuk dari kanan
+        }}
+      />
+
       {/* MainApp berisi Tab Home & Profile */}
       <Stack.Screen 
         name="MainApp" 
