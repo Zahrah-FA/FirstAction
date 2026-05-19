@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { ArrowLeft } from 'iconsax-react-native';
 import "iconsax-react-native";
+import { useEmergency } from '../context/EmergencyContext';
 
 const AddEmergencyForm = ({ navigation }) => {
+  const { addEmergency } = useEmergency();
   const [formData, setFormData] = useState({
     lokasi: "",
     keterangan: "",
@@ -12,6 +14,24 @@ const AddEmergencyForm = ({ navigation }) => {
 
   const handleInputChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    const { lokasi, keterangan, kontak } = formData;
+    if (!lokasi || !keterangan || !kontak) {
+      Alert.alert('Lengkapi form', 'Semua kolom wajib diisi.');
+      return;
+    }
+
+    try {
+      addEmergency({ lokasi, keterangan, kontak });
+      Alert.alert('Sukses', 'Laporan berhasil dikirim.');
+      setFormData({ lokasi: "", keterangan: "", kontak: "" });
+      navigation.goBack();
+    } catch (err) {
+      console.error('Save emergency error', err);
+      Alert.alert('Gagal', 'Terjadi kesalahan saat menyimpan laporan.');
+    }
   };
 
   return (
@@ -50,7 +70,7 @@ const AddEmergencyForm = ({ navigation }) => {
         onChangeText={(text) => handleInputChange("kontak", text)}
       />
 
-      <TouchableOpacity style={styles.btnSubmit}>
+      <TouchableOpacity style={styles.btnSubmit} onPress={handleSubmit}>
         <Text style={styles.btnText}>Kirim Laporan Sekarang</Text>
       </TouchableOpacity>
     </ScrollView>

@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { EmergencyProvider } from '../context/EmergencyContext';
 
 // Import Screen Lama (Bab 1-6)
 import HomeScreen from '../../screens/HomeScreen.js';
@@ -38,7 +39,8 @@ function MainTab() {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <EmergencyProvider>
+      <Stack.Navigator initialRouteName="Login">
       {/* Halaman Login sebagai pintu masuk utama */}
       <Stack.Screen 
         name="Login" 
@@ -82,7 +84,8 @@ const Router = () => {
         component={AddEmergencyForm} 
         options={{ headerShown: false }} 
       />
-    </Stack.Navigator>
+      </Stack.Navigator>
+    </EmergencyProvider>
   );
 };
 
