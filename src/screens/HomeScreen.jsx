@@ -1,12 +1,7 @@
-/**
- * HomeScreen - Halaman Utama
- * Mengatur logika pencarian panduan dan menampilkan daftar data dari actionData
- */
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList } from 'react-native';
-import ActionCard from '../components/ActionCard';
-import actionData from '../utils/actionData';
+import ActionCard from '../../components/ActionCard';
+import actionData from '../../utils/actionData';
 
 export default function HomeScreen() {
   // State untuk menyimpan teks pencarian dari user
@@ -21,7 +16,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       {/* 1. Memberikan komentar sesuai tugas: 
           Komponen Text untuk judul halaman utama aplikasi FirstAction */}
-      <Text style={styles.headerTitle}>Panduan FirstAction</Text>
+      <Text style={styles.headerTitle}>FirstAction</Text>
       
       {/* 2. Komponen TextInput untuk fitur pencarian (Handling Input) */}
       <TextInput
@@ -52,7 +47,7 @@ const styles = StyleSheet.create({
   headerTitle: { 
     fontSize: 24, 
     fontWeight: 'bold', 
-    color: '#1D3557',
+    color: '#E63946',
     marginTop: 25,    // Memberikan jarak dari atas layar agar tidak tertutup notch
     marginBottom: 10, // Memberikan jarak sedikit ke kotak search di bawahnya
     // -------------------------
