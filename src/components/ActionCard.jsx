@@ -1,3 +1,4 @@
+
 // import React, { useState } from 'react';
 // import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
@@ -72,3 +73,4 @@ const styles = StyleSheet.create({
   category: { fontSize: 10, color: '#E63946', fontWeight: 'bold' },
   title: { fontSize: 16, fontWeight: '600', color: '#1D3557' }
 });
+
