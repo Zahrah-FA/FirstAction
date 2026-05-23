@@ -1,76 +1,63 @@
-
-// import React, { useState } from 'react';
-// import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-
-// // Menerima data melalui PROPS: item
-// export default function ActionCard({ item }) {
-//   // STATE: Untuk menyimpan status apakah panduan sudah dibaca atau belum
-//   const [isRead, setIsRead] = useState(false);
-
-//   return (
-//     <TouchableOpacity 
-//       style={[styles.card, isRead && styles.readCard]} 
-//       onPress={() => setIsRead(!isRead)} // Toggle state isRead saat kartu diklik
-//     >
-//       {/* Menampilkan Gambar dari Props */}
-//       <Image source={{ uri: item.image }} style={styles.image} />
-      
-//       <View style={styles.content}>
-//         <Text style={styles.category}>{item.category}</Text>
-//         <Text style={styles.title}>{item.title}</Text>
-//         {/* Teks dinamis berdasarkan STATE */}
-//         <Text style={styles.status}>
-//           {isRead ? '✅ Selesai Dibaca' : '📖 Belum Dibaca'}
-//         </Text>
-//       </View>
-//     </TouchableOpacity>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   card: {
-//     flexDirection: 'row',
-//     backgroundColor: '#fff',
-//     borderRadius: 12,
-//     marginBottom: 15,
-//     overflow: 'hidden',
-//     elevation: 3,
-//   },
-//   readCard: { backgroundColor: '#E8F5E9', opacity: 0.8 }, // Warna berubah jika sudah dibaca
-//   image: { width: 90, height: 90 },
-//   content: { padding: 12, flex: 1, justifyContent: 'center' },
-//   category: { fontSize: 10, color: '#E63946', fontWeight: 'bold', marginBottom: 2 },
-//   title: { fontSize: 16, fontWeight: '600', color: '#1D3557' },
-//   status: { fontSize: 11, marginTop: 5, color: '#666', fontStyle: 'italic' }
-// });
-
-// components/ActionCard.js
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Wajib ada ini
 
-export default function ActionCard({ item }) {
-  const navigation = useNavigation(); // Inisialisasi navigasi
-
+const ActionCard = ({ title, category, image, onPress }) => {
   return (
-    <TouchableOpacity 
-      style={styles.card} 
-      onPress={() => navigation.navigate('Detail', { actionId: item.id })} // Pindah ke Detail
-    >
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <View style={styles.content}>
-        <Text style={styles.category}>{item.category}</Text>
-        <Text style={styles.title}>{item.title}</Text>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
+      {/* Gambar ditaruh di sebelah kiri teks */}
+      {image && (
+        <Image 
+          source={{ uri: image }} 
+          style={styles.cardImage} 
+          resizeMode="cover"
+        />
+      )}
+      
+      <View style={styles.textContainer}>
+        <Text style={styles.cardTitle}>{title}</Text>
+        <Text style={styles.cardCategory}>Kategori: {category}</Text>
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  card: { flexDirection: 'row', backgroundColor: '#fff', borderRadius: 12, marginBottom: 15, elevation: 3, overflow: 'hidden' },
-  image: { width: 90, height: 90 },
-  content: { padding: 12, flex: 1, justifyContent: 'center' },
-  category: { fontSize: 10, color: '#E63946', fontWeight: 'bold' },
-  title: { fontSize: 16, fontWeight: '600', color: '#1D3557' }
+  card: {
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    marginBottom: 14,
+    borderLeftWidth: 6,
+    borderLeftColor: '#E63946', // Garis merah penanda medis di sisi kiri
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    flexDirection: 'row', // Mengatur gambar dan teks agar berjejer ke samping
+    padding: 12,
+    alignItems: 'center',
+  },
+  cardImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 8,
+    marginRight: 14,
+    backgroundColor: '#F3F4F6', // Warna placeholder kalau gambar belum termuat
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1F2937',
+  },
+  cardCategory: {
+    fontSize: 13,
+    color: '#6B7280',
+    marginTop: 4,
+  },
 });
 
+export default ActionCard;

@@ -1,30 +1,57 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; // Pastikan nama ini benar
+import React from 'react';
+
+import { NavigationContainer } from '@react-navigation/native';
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { Ionicons } from '@expo/vector-icons';
 
-import HomeScreen from '../../screens/HomeScreen';
-import Profile from '../../screens/Profile';
-import DetailScreen from '../../screens/DetailScreen';
+import HomeScreen from '../screens/HomeScreen';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator(); // Pastikan tidak ada tanda hubung (-)
+import Profile from '../screens/Profile';
 
-function MainTab() {
+import DetailScreen from '../screens/DetailScreen';
+
+const Tab = createBottomTabNavigator();
+
+const Stack = createNativeStackNavigator();
+
+function BottomTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        headerShown: false,
+
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          if (route.name === 'Home') {
+            iconName = 'home';
+          } else if (route.name === 'Profile') {
+            iconName = 'person';
+          }
+
+          return (
+            <Ionicons
+              name={iconName}
+              size={size}
+              color={color}
+            />
+          );
         },
-        tabBarActiveTintColor: '#E63946',
-        tabBarInactiveTintColor: 'gray',
-        headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+      />
     </Tab.Navigator>
   );
 }
@@ -32,15 +59,18 @@ function MainTab() {
 export default function Router() {
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="MainApp" 
-        component={MainTab} 
-        options={{ headerShown: false }} 
+      <Stack.Screen
+        name="Main"
+        component={BottomTabs}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="Detail" 
-        component={DetailScreen} 
-        options={{ title: 'Detail Pertolongan' }} 
+
+      <Stack.Screen
+        name="Detail"
+        component={DetailScreen}
+        options={{
+          title: 'Detail Tindakan',
+        }}
       />
     </Stack.Navigator>
   );
