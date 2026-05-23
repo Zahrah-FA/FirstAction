@@ -1,60 +1,114 @@
-// utils/actionData.js
-
 export default [
-  { 
-    id: '1', 
-    title: 'Mimisan', 
-    category: 'Fisik', 
-    image: 'https://www.farmaku.com/artikel/wp-content/uploads/2020/10/New-Project-14.jpg', 
-    description: 'Langkah Penanganan Cepat:\n1. Duduk tegak dan condongkan tubuh sedikit ke depan (JANGAN mendongak agar darah tidak masuk ke tenggorokan).\n2. Jepit cuping hidung selama 10-15 menit menggunakan ibu jari dan telunjuk.\n3. Bernapaslah melalui mulut selama hidung dijepit.\n4. Kompres dingin pada pangkal hidung untuk membantu menyempitkan pembuluh darah.\n5. Jika pendarahan tidak berhenti lebih dari 20 menit, segera ke dokter.\n\nPenjelasan:\nPendarahan dari hidung yang terjadi karena pecahnya pembuluh darah halus di dalam lubang hidung. Biasanya dipicu oleh udara kering, benturan, atau kelelahan.\n\nSaran Obat:\nTidak memerlukan obat khusus pada tahap awal. Jika hidung sangat kering, bisa menggunakan semprotan *saline* (air garam steril). Jika pendarahan sering berulang, segera konsultasikan ke dokter.' 
+  {
+    id: '1',
+    title: 'Mimisan',
+    category: 'Fisik',
+    image: 'https://www.farmaku.com/artikel/wp-content/uploads/2020/10/New-Project-14.jpg',
+    description:
+      'Mimisan adalah kondisi keluarnya darah dari hidung akibat pecahnya pembuluh darah kecil di dalam hidung.',
+    treatment:
+      'Duduk tegak dan condongkan tubuh sedikit ke depan. Jepit hidung selama 10–15 menit dan bernapas melalui mulut.',
+    medicine:
+      'Gunakan kompres dingin dan semprotan saline jika diperlukan.',
+    warning:
+      'Jika mimisan tidak berhenti lebih dari 20 menit atau disertai pusing berat, segera hubungi ambulance.',
   },
-  { 
-    id: '2', 
-    title: 'Luka Bakar Ringan', 
-    category: 'Fisik', 
-    image: 'https://medical-images.essity.com/images-c5/285/321285/original/wound-treatment-burns-header-1960x376px.png', 
-    description: 'Langkah Penanganan Cepat:\n1. Siram area luka dengan air mengalir (suhu ruang) selama 10-20 menit. JANGAN gunakan air es.\n2. JANGAN mengoleskan pasta gigi, mentega, atau kecap karena bisa memicu infeksi.\n3. Tutup luka secara longgar dengan kain bersih atau kasa steril.\n4. Jika muncul lepuhan, jangan dipecahkan sendiri.\n\nPenjelasan:\nKerusakan kulit akibat terkena benda panas, air mendidih, atau knalpot. Luka bakar derajat ringan ditandai dengan kulit kemerahan dan perih.\n\nSaran Obat:\nOleskan salep luka bakar (seperti Bioplacenton atau gel Aloe Vera murni) setelah luka didinginkan. Konsumsi Paracetamol atau Ibuprofen untuk meredakan rasa perih dan nyeri.' 
+  {
+    id: '2',
+    title: 'Luka Bakar Ringan',
+    category: 'Fisik',
+    image: 'https://medical-images.essity.com/images-c5/285/321285/original/wound-treatment-burns-header-1960x376px.png',
+    description:
+      'Luka bakar ringan biasanya terjadi akibat terkena air panas, minyak panas, atau benda panas.',
+    treatment:
+      'Aliri bagian luka dengan air mengalir selama 10–20 menit dan hindari mengoleskan pasta gigi atau mentega.',
+    medicine:
+      'Gunakan salep luka bakar ringan atau gel aloe vera.',
+    warning:
+      'Jika luka membesar, melepuh parah, atau terasa sangat sakit, segera hubungi ambulance.',
   },
-  { 
-    id: '3', 
-    title: 'Tersedak', 
-    category: 'Fisik', 
-    image: 'https://nos.wjv-1.neo.id/rspi-assets-production/rspi-api/uploads/61990c6248c20_20211120215530-1.jpg', 
-    description: 'Langkah Penanganan Cepat:\n1. Berikan 5 pukulan kuat di punggung (di antara tulang belikat) menggunakan tumit tangan.\n2. Jika belum keluar, lakukan Heimlich Maneuver: Berdiri di belakang korban, lingkarkan tangan di pinggangnya.\n3. Kepalkan tangan di atas pusar korban, lalu tarik kuat ke arah dalam dan ke atas secara cepat.\n4. Ulangi sampai benda asing keluar.\n5. Jika korban pingsan, segera cari bantuan medis darurat.\n\nPenjelasan:\nKondisi tersumbatnya saluran pernapasan oleh benda asing atau makanan. Sangat berbahaya karena bisa menyebabkan gagal napas dalam hitungan menit.\n\nSaran Obat:\nTidak ada obat untuk kondisi ini. Tindakan fisik (Heimlich Maneuver) adalah satu-satunya pertolongan pertama. Bawa ke IGD jika tenggorokan terluka setelah benda asing keluar.' 
+  {
+    id: '3',
+    title: 'Tersedak',
+    category: 'Fisik',
+    image: 'https://nos.wjv-1.neo.id/rspi-assets-production/rspi-api/uploads/61990c6248c20_20211120215530-1.jpg',
+    description:
+      'Tersedak terjadi ketika makanan atau benda asing menyumbat saluran napas.',
+    treatment:
+      'Lakukan tepukan punggung sebanyak 5 kali atau Heimlich maneuver jika korban kesulitan bernapas.',
+    medicine:
+      'Tidak ada obat khusus, fokus utama adalah membuka saluran napas.',
+    warning:
+      'Jika korban tidak bisa bernapas atau kehilangan kesadaran, segera hubungi ambulance.',
   },
-  { 
-    id: '4', 
-    title: 'Keseleo / Terkilir', 
-    category: 'Saraf', 
-    image: 'https://www.nk-health.com/wp-content/uploads/2024/02/550fafeb-6759-4483-b2a4-971db334c876-article-1666441379.jpeg', 
-    description: 'Langkah Penanganan Cepat (Metode R.I.C.E):\n1. Rest: Istirahatkan bagian tubuh yang cedera.\n2. Ice: Kompres dengan es selama 15 menit setiap 2-3 jam untuk mengurangi bengkak.\n3. Compression: Balut area cedera dengan perban elastis (jangan terlalu kencang).\n4. Elevation: Posisikan bagian yang keseleo lebih tinggi dari level jantung.\n5. Hindari pijat atau urut pada area yang masih meradang/bengkak.\n\nPenjelasan:\nCedera pada ligamen di sekitar sendi yang biasanya terjadi pada pergelangan kaki atau tangan akibat salah posisi atau aktivitas berat.\n\nSaran Obat:\nOleskan gel/krim pereda nyeri otot (seperti Natrium Diklofenak gel atau Counterpain). Minum obat antiinflamasi seperti Ibuprofen atau Paracetamol untuk mengurangi bengkak dan nyeri.' 
+  {
+    id: '4',
+    title: 'Keseleo / Terkilir',
+    category: 'Saraf',
+    image: 'https://www.yesdok.com/visual/slideshow/550fafeb-6759-4483-b2a4-971db334c876-article-1666441379.jpeg?w=1200',
+    description:
+      'Keseleo terjadi akibat peregangan atau robekan ligamen pada sendi.',
+    treatment:
+      'Gunakan metode RICE: Rest, Ice, Compression, Elevation.',
+    medicine:
+      'Obat pereda nyeri seperti paracetamol atau ibuprofen dapat membantu.',
+    warning:
+      'Jika bengkak sangat besar atau tidak bisa digerakkan, segera hubungi ambulance.',
   },
-  { 
-    id: '5', 
-    title: 'Serangan Jantung Ringan', 
-    category: 'Jantung', 
-    image: 'https://rspp.co.id/uploads/img_post/img_2309202417270514472S2XO.jpg', 
-    description: 'Langkah Penanganan Cepat:\n1. Hubungi ambulans (119) segera.\n2. Posisikan pasien duduk setengah berbaring agar pernapasan lebih ringan.\n3. Longgarkan semua pakaian yang ketat.\n4. JANGAN biarkan pasien banyak bergerak atau berjalan.\n5. Temani pasien dan pastikan sirkulasi udara di sekitar baik sampai bantuan tiba.\n\nPenjelasan:\nKondisi darurat ketika aliran darah ke jantung terhambat secara mendadak. Gejalanya nyeri dada kiri yang menjalar ke lengan atau rahang, sesak napas, dan keringat dingin.\n\nSaran Obat:\nJika pasien tidak alergi, berikan 1 tablet Aspirin untuk dikunyah perlahan guna membantu mengencerkan darah. Jika pasien sudah memiliki resep obat Nitrogliserin dari dokter, bantu mereka meletakkannya di bawah lidah.' 
+  {
+    id: '5',
+    title: 'Serangan Jantung Ringan',
+    category: 'Jantung',
+    image: 'https://livhospital.b-cdn.net/wp-content/uploads/2026/04/22084940/APR-4218_image_1-1024x683.webp',
+    description:
+      'Serangan jantung ringan terjadi saat aliran darah ke jantung mulai terganggu.',
+    treatment:
+      'Dudukkan pasien dengan tenang dan longgarkan pakaian yang ketat.',
+    medicine:
+      'Aspirin dapat diberikan jika pasien tidak alergi dan sadar penuh.',
+    warning:
+      'Jika nyeri dada semakin parah atau sesak napas muncul, segera hubungi ambulance.',
   },
-  { 
-    id: '6', 
-    title: 'Pingsan', 
-    category: 'Saraf', 
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRECAzQkreHotbQ7tMj61Rbig_UH2sp4JmgYA&s', 
-    description: 'Langkah Penanganan Cepat:\n1. Baringkan korban di tempat teduh dan datar.\n2. Angkat kaki korban lebih tinggi dari jantung (sekitar 30 cm).\n3. Longgarkan kerah baju atau ikat pinggang korban.\n4. Berikan bau-bauan tajam (seperti minyak kayu putih) jika tersedia.\n5. Setelah sadar, berikan air minum manis dan jangan biarkan langsung berdiri tegak.\n\nPenjelasan:\nHilangnya kesadaran sementara akibat menurunnya aliran darah ke otak secara mendadak. Biasanya dipicu oleh kelelahan, lapar, atau cuaca panas.\n\nSaran Obat:\nGunakan Minyak Kayu Putih, Inhaler Aromaterapi, atau Amonia ringan untuk merangsang penciuman dan kesadaran. Tidak ada obat oral yang diperlukan; berikan teh manis hangat untuk memulihkan gula darah setelah pasien sadar penuh.' 
+  {
+    id: '6',
+    title: 'Pingsan',
+    category: 'Fisik',
+    image: 'https://d3uhejzrzvtlac.cloudfront.net/compro/articleMobile/9541bba1-40a9-45eb-a2e6-50bf459d91aa.webp',
+    description:
+      'Pingsan adalah kondisi hilangnya kesadaran sementara akibat kurangnya aliran darah ke otak.',
+    treatment:
+      'Baringkan korban dan angkat kaki sedikit lebih tinggi.',
+    medicine:
+      'Berikan air minum setelah korban sadar sepenuhnya.',
+    warning:
+      'Jika korban tidak sadar lebih dari 1 menit atau sulit bernapas, segera hubungi ambulance.',
   },
-  { 
-    id: '7', 
-    title: 'Demam Kejang', 
-    category: 'Fisik', 
-    image: 'https://s3-publishing-cmn-svc-prd.s3.ap-southeast-1.amazonaws.com/article/lnTscrhiRckvzGrwMrOMD/original/093937800_1579166383-Sering-Kejang-Demam-Bisa-Berdampak-Turunkan-Kecerdasan-Anak-Shutterstock_1514973782.jpg', 
-    description: 'Langkah Penanganan Cepat:\n1. Letakkan anak di permukaan datar yang aman.\n2. Miringkan posisi tubuh anak agar air liur tidak menyumbat pernapasan.\n3. JANGAN memasukkan benda apa pun (sendok/jari) ke dalam mulut anak.\n4. JANGAN menahan gerakan kejang anak secara paksa.\n5. Longgarkan pakaian dan kompres hangat (bukan air dingin) setelah kejang berhenti.\n\nPenjelasan:\nKejang yang terjadi pada anak-anak akibat kenaikan suhu tubuh yang terlalu cepat. Biasanya terlihat menakutkan bagi orang tua awam namun umumnya tidak merusak otak.\n\nSaran Obat:\nBerikan obat penurun panas seperti Paracetamol atau Ibuprofen sirup HANYA setelah anak sadar penuh (jangan saat kejang). Jika sudah diresepkan dokter sebelumnya, berikan obat anti-kejang via dubur (seperti Diazepam rektal) saat kejang berlangsung.' 
+  {
+    id: '7',
+    title: 'Luka Sayat',
+    category: 'Fisik',
+    image: 'https://images-1.eucerin.com/~/media/hansaplast/media-center-items/b/9/e/0e100ed938314921bc4acfe4b1949097-screen.jpg',
+    description:
+      'Luka sayat terjadi akibat benda tajam yang melukai permukaan kulit.',
+    treatment:
+      'Cuci luka dengan air bersih lalu tekan menggunakan kain steril untuk menghentikan perdarahan.',
+    medicine:
+      'Gunakan antiseptik dan salep antibiotik ringan.',
+    warning:
+      'Jika perdarahan tidak berhenti atau luka terlalu dalam, segera hubungi ambulance.',
   },
-  { 
-    id: '8', 
-    title: 'Alergi / Biduran', 
-    category: 'Fisik', 
-    image: 'https://images.alodokter.com/dk0z4ums3/image/upload/v1641204356/attached_image/alergi-dingin.jpg', 
-    description: 'Langkah Penanganan Cepat:\n1. Identifikasi dan jauhkan penyebab alergi (debu, makanan, bulu hewan) segera.\n2. Oleskan losion atau kompres dingin pada area kulit yang gatal.\n3. Hindari menggaruk area yang bengkak agar tidak memicu infeksi.\n4. Pantau pernapasan; jika bibir/mata bengkak parah dan pasien mulai sesak napas (Anafilaksis), segera bawa ke IGD.\n\nPenjelasan:\nReaksi imun tubuh yang berlebihan terhadap zat asing yang sebenarnya tidak berbahaya, menyebabkan kulit gatal, kemerahan, dan bengkak (biduran).\n\nSaran Obat:\nKonsumsi obat Antihistamin (seperti Cetirizine, Loratadine, atau CTM) yang dijual bebas untuk meredakan reaksi alergi dari dalam. Oleskan Bedak Salisil atau Losion Kalamin (Calamine) untuk menenangkan kulit yang gatal.' 
+  {
+    id: '8',
+    title: 'Demam',
+    category: 'Fisik',
+    image: 'https://images.alodokter.com/dk0z4ums3/image/upload/v1773285932/attached_image/demam-40-derajat-pada-orang-dewasa-dan-pertolongan-pertamanya.jpg',
+    description:
+      'Demam adalah kondisi meningkatnya suhu tubuh sebagai respons terhadap infeksi.',
+    treatment:
+      'Perbanyak istirahat dan minum air putih yang cukup.',
+    medicine:
+      'Paracetamol dapat digunakan untuk membantu menurunkan demam.',
+    warning:
+      'Jika suhu tubuh sangat tinggi atau disertai kejang, segera hubungi ambulance.',
   }
 ];
