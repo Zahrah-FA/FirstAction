@@ -1,31 +1,26 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
+
 import HomeScreen from '../screens/HomeScreen';
 import Profile from '../screens/Profile';
 import DetailScreen from '../screens/DetailScreen';
-import EmergencyForm from '../screens/EmergencyForm';
 import Login from '../screens/Login';
+import EmergencyForm from '../screens/EmergencyForm';
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
-function BottomTabs() {
+function MainTab() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerShown: false,
-
         tabBarIcon: ({ color, size }) => {
-          let iconName;
-
-          if (route.name === 'Home') {
-            iconName = 'home';
-          } else if (route.name === 'Profile') {
-            iconName = 'person';
-          }
+          let iconName =
+            route.name === 'Home'
+              ? 'home'
+              : 'person';
 
           return (
             <Ionicons
@@ -35,24 +30,29 @@ function BottomTabs() {
             />
           );
         },
+        tabBarActiveTintColor: '#E63946',
+        tabBarInactiveTintColor: 'gray',
       })}
     >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
+        options={{ headerShown: false }}
       />
 
       <Tab.Screen
         name="Profile"
         component={Profile}
+        options={{ headerShown: false }}
       />
     </Tab.Navigator>
   );
 }
 
-const Router = () => {
+export default function Router() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Login">
+
       <Stack.Screen
         name="Login"
         component={Login}
@@ -60,16 +60,18 @@ const Router = () => {
       />
 
       <Stack.Screen
-        name="Main"
-        component={BottomTabs}
+        name="MainApp"
+        component={MainTab}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
-        name="Detail"
+        name="DetailScreen"
         component={DetailScreen}
         options={{
-          title: 'Detail Tindakan',
+          title: 'Detail Pertolongan',
+          headerTintColor: '#E63946',
+          ...TransitionPresets.SlideFromRightIOS,
         }}
       />
 
@@ -78,10 +80,10 @@ const Router = () => {
         component={EmergencyForm}
         options={{
           title: 'Form Darurat',
+          headerTintColor: '#E63946',
         }}
       />
-      </Stack.Navigator>
-  );
-};
 
-export default Router;
+    </Stack.Navigator>
+  );
+}

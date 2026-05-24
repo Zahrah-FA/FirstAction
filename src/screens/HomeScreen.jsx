@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import {
   View,
   Text,
@@ -8,48 +9,64 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 import ActionCard from '../components/ActionCard';
+import { supabase } from '../lib/supabase';
 
 export default function HomeScreen() {
+
   const navigation = useNavigation();
+
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua');
+
   const categories = ['Semua', 'Fisik', 'Saraf', 'Jantung'];
 
   useEffect(() => {
-    fetch('http://10.216.231.205:3000/emergencies')
-      .then((response) => response.json())
-      .then((json) => {
-        setData(json);
-      })
-      .catch((error) => console.log(error));
+    getData();
   }, []);
 
-  // Filter Search + Category
+  const getData = async () => {
+
+    const { data, error } = await supabase
+      .from('emergencies')
+      .select('*');
+
+    if (error) {
+      console.log(error);
+    } else {
+      setData(data);
+    }
+  };
+
   const filteredData = data.filter((item) => {
+
     const matchesSearch =
-      item.title.toLowerCase().includes(search.toLowerCase());
+      item.title
+        ?.toLowerCase()
+        .includes(search.toLowerCase());
+
     const matchesCategory =
       selectedCategory === 'Semua' ||
       item.category === selectedCategory;
+
     return matchesSearch && matchesCategory;
   });
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+
       <Text style={styles.headerTitle}>
         FirstAction
       </Text>
 
-      {/* Search */}
       <TextInput
         style={styles.searchBar}
-        placeholder="Cari tindakan penyelamatan..."
+        placeholder="Cari tindakan..."
         value={search}
-        onChangeText={(text) => setSearch(text)}
+        onChangeText={setSearch}
       />
 
       {/* Category */}
@@ -58,7 +75,9 @@ export default function HomeScreen() {
           horizontal
           showsHorizontalScrollIndicator={false}
         >
+
           {categories.map((cat, index) => (
+
             <TouchableOpacity
               key={index}
               style={[
@@ -68,6 +87,7 @@ export default function HomeScreen() {
               ]}
               onPress={() => setSelectedCategory(cat)}
             >
+
               <Text
                 style={[
                   styles.categoryText,
@@ -77,15 +97,19 @@ export default function HomeScreen() {
               >
                 {cat}
               </Text>
+
             </TouchableOpacity>
           ))}
+
         </ScrollView>
       </View>
 
-      {/* Button Form */}
+      {/* Button */}
       <TouchableOpacity
         style={styles.formButton}
-        onPress={() => navigation.navigate('EmergencyForm')}
+        onPress={() =>
+          navigation.navigate('EmergencyForm')
+        }
       >
         <Text style={styles.formButtonText}>
           Buat Laporan Darurat
@@ -95,21 +119,17 @@ export default function HomeScreen() {
       {/* List */}
       <FlatList
         data={filteredData}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => (
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>
-              Data tidak ditemukan
-            </Text>
-          </View>
-        )}
-
+        keyExtractor={(item) =>
+          item.id.toString()
+        }
         renderItem={({ item }) => (
           <ActionCard
             item={item}
             onPress={() =>
-              navigation.navigate('Detail', { item })
+              navigation.navigate(
+                'DetailScreen',
+                { item }
+              )
             }
           />
         )}
@@ -124,6 +144,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#F8F9FA',
   },
+
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -131,6 +152,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginBottom: 10,
   },
+
   searchBar: {
     backgroundColor: '#fff',
     paddingHorizontal: 15,
@@ -139,11 +161,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     marginBottom: 15,
-    elevation: 2,
   },
+
   categoryContainer: {
     marginBottom: 15,
   },
+
   categoryButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -151,17 +174,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#EAEAEA',
     marginRight: 10,
   },
+
   categoryButtonActive: {
     backgroundColor: '#E63946',
   },
+
   categoryText: {
     color: '#495057',
     fontWeight: '600',
-    fontSize: 14,
   },
+
   categoryTextActive: {
-    color: '#FFF',
+    color: '#fff',
   },
+
   formButton: {
     backgroundColor: '#1D3557',
     padding: 15,
@@ -169,16 +195,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: 'center',
   },
+
   formButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  emptyText: {
-    color: '#999',
-    fontSize: 15,
   },
 });

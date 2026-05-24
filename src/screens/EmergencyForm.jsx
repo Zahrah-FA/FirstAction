@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
   View,
   Text,
@@ -9,108 +10,158 @@ import {
   ScrollView,
 } from 'react-native';
 
-export default function EmergencyForm({ navigation, route }) {
-  // Ambil data edit kalau ada
+import { supabase } from '../lib/supabase';
+
+export default function EmergencyForm({
+  navigation,
+  route,
+}) {
+
   const editData = route.params?.item;
+
   const [name, setName] = useState('');
   const [condition, setCondition] = useState('');
   const [location, setLocation] = useState('');
   const [note, setNote] = useState('');
 
-  // Isi otomatis kalau mode edit
+  // Isi data saat edit
   useEffect(() => {
+
     if (editData) {
-      setName(editData.description?.replace('Laporan darurat atas nama ', '').replace('.', '') || '');
-      setCondition(editData.title || '');
-      setLocation(
-        editData.treatment?.replace('Segera lakukan pemeriksaan awal di lokasi ', '').replace('.', '') || ''
+
+      setName(
+        editData.name || ''
       );
-      setNote(editData.medicine || '');
+
+      setCondition(
+        editData.title || ''
+      );
+
+      setLocation(
+        editData.location || ''
+      );
+
+      setNote(
+        editData.medicine || ''
+      );
     }
+
   }, []);
 
+  // =========================
+  // SUBMIT
+  // =========================
   const handleSubmit = async () => {
-    if (!name || !condition || !location) {
+
+    if (
+      !name ||
+      !condition ||
+      !location
+    ) {
+
       Alert.alert(
         'Peringatan',
         'Mohon isi semua data penting!'
       );
+
       return;
     }
 
     const formData = {
+
+      name: name,
+
       title: condition,
+
       category: 'Darurat',
+
+      location: location,
+
       image:
         'https://cdn-icons-png.flaticon.com/512/2966/2966486.png',
 
-      description: `Laporan darurat atas nama ${name}.`,
+      description:
+        `Pasien mengalami ${condition}.`,
+
       treatment:
-        `Segera lakukan pemeriksaan awal di lokasi ${location}.`,
+        `Segera lakukan pemeriksaan awal di lokasi ${location} dan hubungi tenaga medis terdekat.`,
+
       medicine:
-        note || 'Menunggu tindakan medis lebih lanjut.',
+        note ||
+        'Menunggu tindakan medis lebih lanjut.',
     };
 
     try {
-      // MODE EDIT = PUT
-      if (editData) {
-        const response = await fetch(
-          `http://10.216.231.205:3000/emergencies/${editData.id}`,
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          }
-        );
 
-        if (response.ok) {
+      // =========================
+      // UPDATE
+      // =========================
+      if (editData) {
+
+        const { error } = await supabase
+          .from('emergencies')
+          .update(formData)
+          .eq('id', editData.id);
+
+        if (error) {
+
+          console.log(error);
+
+          Alert.alert(
+            'Error',
+            error.message
+          );
+
+        } else {
+
           Alert.alert(
             'Berhasil',
             'Data berhasil diupdate!'
           );
+
           navigation.goBack();
-        } else {
-          Alert.alert(
-            'Error',
-            'Gagal update data!'
-          );
         }
+
       }
 
-      // MODE TAMBAH = POST
+      // =========================
+      // INSERT
+      // =========================
       else {
-        const response = await fetch(
-          'http://10.216.231.205:3000/emergencies',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          }
-        );
 
-        if (response.ok) {
+        const { error } = await supabase
+          .from('emergencies')
+          .insert([formData]);
+
+        if (error) {
+
+          console.log(error);
+
+          Alert.alert(
+            'Error',
+            error.message
+          );
+
+        } else {
+
           Alert.alert(
             'Berhasil',
-            'Laporan darurat berhasil dikirim!'
+            'Laporan berhasil dikirim!'
           );
+
           setName('');
           setCondition('');
           setLocation('');
           setNote('');
+
           navigation.goBack();
-        } else {
-          Alert.alert(
-            'Error',
-            'Gagal mengirim data!'
-          );
         }
       }
+
     } catch (error) {
+
       console.log(error);
+
       Alert.alert(
         'Error',
         'Server tidak terhubung!'
@@ -119,13 +170,18 @@ export default function EmergencyForm({ navigation, route }) {
   };
 
   return (
+
     <ScrollView style={styles.container}>
+
       <Text style={styles.title}>
+
         {editData
           ? 'Edit Laporan Darurat'
           : 'Form Laporan Darurat'}
+
       </Text>
 
+      {/* Nama */}
       <TextInput
         style={styles.input}
         placeholder="Nama Pasien"
@@ -133,6 +189,7 @@ export default function EmergencyForm({ navigation, route }) {
         onChangeText={setName}
       />
 
+      {/* Kondisi */}
       <TextInput
         style={styles.input}
         placeholder="Kondisi Darurat"
@@ -140,6 +197,7 @@ export default function EmergencyForm({ navigation, route }) {
         onChangeText={setCondition}
       />
 
+      {/* Lokasi */}
       <TextInput
         style={styles.input}
         placeholder="Lokasi"
@@ -147,14 +205,19 @@ export default function EmergencyForm({ navigation, route }) {
         onChangeText={setLocation}
       />
 
+      {/* Catatan */}
       <TextInput
-        style={[styles.input, styles.textArea]}
+        style={[
+          styles.input,
+          styles.textArea
+        ]}
         placeholder="Catatan Tambahan"
         value={note}
         onChangeText={setNote}
         multiline
       />
 
+      {/* Button */}
       <TouchableOpacity
         style={styles.button}
         onPress={handleSubmit}
@@ -165,18 +228,23 @@ export default function EmergencyForm({ navigation, route }) {
           {editData
             ? 'Update Data'
             : 'Kirim Laporan'}
+
         </Text>
+
       </TouchableOpacity>
+
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
   },
+
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -184,6 +252,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     marginTop: 20,
   },
+
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -192,10 +261,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
   },
+
   textArea: {
     height: 120,
     textAlignVertical: 'top',
   },
+
   button: {
     backgroundColor: '#E63946',
     padding: 15,
@@ -203,9 +274,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
+
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
   },
+
 });
