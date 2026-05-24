@@ -5,10 +5,58 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 
-export default function DetailScreen({ route }) {
+export default function DetailScreen({ route, navigation }) {
   const { item } = route.params;
+  // DELETE API
+  const handleDelete = () => {
+    Alert.alert(
+      'Konfirmasi',
+      'Yakin ingin menghapus data ini?',
+      [
+        {
+          text: 'Batal',
+          style: 'cancel',
+        },
+        {
+          text: 'Hapus',
+          onPress: async () => {
+            try {
+              const response = await fetch(
+                `http://10.216.231.205:3000/emergencies/${item.id}`,
+                {
+                  method: 'DELETE',
+                }
+              );
+              if (response.ok) {
+                Alert.alert(
+                  'Berhasil',
+                  'Data berhasil dihapus'
+                );
+                navigation.goBack();
+              } else {
+                Alert.alert(
+                  'Error',
+                  'Gagal menghapus data'
+                );
+              }
+
+            } catch (error) {
+              console.log(error);
+              Alert.alert(
+                'Error',
+                'Server tidak terhubung'
+              );
+            }
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <ScrollView style={styles.container}>
       {/* Gambar */}
@@ -62,6 +110,31 @@ export default function DetailScreen({ route }) {
             ⚠ Jika kondisi semakin memburuk segera hubungi ambulans atau tenaga medis terdekat.
           </Text>
         </View>
+
+        {/* Button Edit */}
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() =>
+            navigation.navigate(
+              'EmergencyForm',
+              { item }
+            )
+          }
+        >
+          <Text style={styles.editButtonText}>
+            Edit Data
+          </Text>
+        </TouchableOpacity>
+
+        {/* Button Delete */}
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={handleDelete}
+        >
+          <Text style={styles.deleteButtonText}>
+            Hapus Data
+          </Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -122,5 +195,30 @@ const styles = StyleSheet.create({
     color: '#D62828',
     fontWeight: 'bold',
     lineHeight: 22,
+  },
+  deleteButton: {
+    backgroundColor: '#D62828',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  editButton: {
+  backgroundColor: '#1D3557',
+  padding: 15,
+  borderRadius: 10,
+  alignItems: 'center',
+  marginBottom: 15,
+  },
+
+  editButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });

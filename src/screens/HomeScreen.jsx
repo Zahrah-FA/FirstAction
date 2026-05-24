@@ -19,7 +19,7 @@ export default function HomeScreen() {
   const categories = ['Semua', 'Fisik', 'Saraf', 'Jantung'];
 
   useEffect(() => {
-    fetch('http://192.168.1.7:3000/emergencies')
+    fetch('http://10.216.231.205:3000/emergencies')
       .then((response) => response.json())
       .then((json) => {
         setData(json);

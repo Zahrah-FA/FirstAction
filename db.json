@@ -1,7 +1,7 @@
 {
   "emergencies": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Mimisan",
       "category": "Fisik",
       "image": "https://www.farmaku.com/artikel/wp-content/uploads/2020/10/New-Project-14.jpg",
@@ -9,9 +9,8 @@
       "treatment": "Duduk tegak lalu condongkan kepala sedikit ke depan. Jepit hidung selama 10 menit dan bernapas melalui mulut.",
       "medicine": "Gunakan kompres dingin pada area hidung bila diperlukan."
     },
-
     {
-      "id": 2,
+      "id": "2",
       "title": "Luka Bakar Ringan",
       "category": "Fisik",
       "image": "https://medical-images.essity.com/images-c5/285/321285/original/wound-treatment-burns-header-1960x376px.png",
@@ -19,9 +18,8 @@
       "treatment": "Siram bagian luka menggunakan air mengalir selama 10–20 menit dan hindari mengoleskan pasta gigi.",
       "medicine": "Gunakan salep luka bakar ringan sesuai anjuran."
     },
-
     {
-      "id": 3,
+      "id": "3",
       "title": "Tersedak",
       "category": "Fisik",
       "image": "https://nos.wjv-1.neo.id/rspi-assets-production/rspi-api/uploads/61990c6248c20_20211120215530-1.jpg",
@@ -29,9 +27,8 @@
       "treatment": "Minta korban batuk kuat. Jika tidak bisa bernapas lakukan Heimlich maneuver secara hati-hati.",
       "medicine": "Segera cari bantuan medis bila korban kesulitan bernapas."
     },
-
     {
-      "id": 4,
+      "id": "4",
       "title": "Keseleo / Terkilir",
       "category": "Saraf",
       "image": "https://www.yesdok.com/visual/slideshow/550fafeb-6759-4483-b2a4-971db334c876-article-1666441379.jpeg?w=1200",
@@ -39,9 +36,8 @@
       "treatment": "Istirahatkan bagian yang cedera dan kompres es selama 15 menit.",
       "medicine": "Gunakan obat anti nyeri ringan bila diperlukan."
     },
-
     {
-      "id": 5,
+      "id": "5",
       "title": "Serangan Jantung Ringan",
       "category": "Jantung",
       "image": "https://livhospital.b-cdn.net/wp-content/uploads/2026/04/22084940/APR-4218_image_1-1024x683.webp",
@@ -49,9 +45,8 @@
       "treatment": "Bantu penderita duduk tenang dan longgarkan pakaian yang ketat.",
       "medicine": "Aspirin dapat diberikan bila tidak ada alergi dan atas saran tenaga medis."
     },
-
     {
-      "id": 6,
+      "id": "6",
       "title": "Pingsan",
       "category": "Fisik",
       "image": "https://d3uhejzrzvtlac.cloudfront.net/compro/articleMobile/9541bba1-40a9-45eb-a2e6-50bf459d91aa.webp",
@@ -59,9 +54,8 @@
       "treatment": "Baringkan korban dan angkat kaki sedikit lebih tinggi dari kepala.",
       "medicine": "Berikan air minum setelah korban sadar penuh."
     },
-
     {
-      "id": 7,
+      "id": "7",
       "title": "Luka Sayat",
       "category": "Fisik",
       "image": "https://images-1.eucerin.com/~/media/hansaplast/media-center-items/b/9/e/0e100ed938314921bc4acfe4b1949097-screen.jpg",
@@ -69,15 +63,24 @@
       "treatment": "Bersihkan luka menggunakan air bersih lalu tekan dengan kain steril.",
       "medicine": "Gunakan antiseptik dan balut menggunakan perban steril."
     },
-
     {
-      "id": 8,
+      "id": "8",
       "title": "Demam",
       "category": "Fisik",
       "image": "https://images.alodokter.com/dk0z4ums3/image/upload/v1773285932/attached_image/demam-40-derajat-pada-orang-dewasa-dan-pertolongan-pertamanya.jpg",
       "description": "Demam merupakan kondisi meningkatnya suhu tubuh akibat infeksi atau peradangan.",
       "treatment": "Istirahat cukup dan minum banyak air putih agar tubuh tidak dehidrasi.",
       "medicine": "Paracetamol dapat membantu menurunkan suhu tubuh."
+    },
+    {
+      "title": "Qweer",
+      "category": "Darurat",
+      "image": "https://cdn-icons-png.flaticon.com/512/2966/2966486.png",
+      "description": "Laporan darurat atas nama Qwwer.",
+      "treatment": "Segera lakukan pemeriksaan awal di lokasi Qwerr.",
+      "medicine": "Qweddd",
+      "id": "X_9bsPPu1X0"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

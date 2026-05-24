@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,15 +9,27 @@ import {
   ScrollView,
 } from 'react-native';
 
-export default function EmergencyForm() {
-
+export default function EmergencyForm({ navigation, route }) {
+  // Ambil data edit kalau ada
+  const editData = route.params?.item;
   const [name, setName] = useState('');
   const [condition, setCondition] = useState('');
   const [location, setLocation] = useState('');
   const [note, setNote] = useState('');
 
-  const handleSubmit = () => {
+  // Isi otomatis kalau mode edit
+  useEffect(() => {
+    if (editData) {
+      setName(editData.description?.replace('Laporan darurat atas nama ', '').replace('.', '') || '');
+      setCondition(editData.title || '');
+      setLocation(
+        editData.treatment?.replace('Segera lakukan pemeriksaan awal di lokasi ', '').replace('.', '') || ''
+      );
+      setNote(editData.medicine || '');
+    }
+  }, []);
 
+  const handleSubmit = async () => {
     if (!name || !condition || !location) {
       Alert.alert(
         'Peringatan',
@@ -27,23 +38,92 @@ export default function EmergencyForm() {
       return;
     }
 
-    Alert.alert(
-      'Laporan Terkirim',
-      `Pasien: ${name}\nKondisi: ${condition}`
-    );
+    const formData = {
+      title: condition,
+      category: 'Darurat',
+      image:
+        'https://cdn-icons-png.flaticon.com/512/2966/2966486.png',
 
-    setName('');
-    setCondition('');
-    setLocation('');
-    setNote('');
+      description: `Laporan darurat atas nama ${name}.`,
+      treatment:
+        `Segera lakukan pemeriksaan awal di lokasi ${location}.`,
+      medicine:
+        note || 'Menunggu tindakan medis lebih lanjut.',
+    };
+
+    try {
+      // MODE EDIT = PUT
+      if (editData) {
+        const response = await fetch(
+          `http://10.216.231.205:3000/emergencies/${editData.id}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+
+        if (response.ok) {
+          Alert.alert(
+            'Berhasil',
+            'Data berhasil diupdate!'
+          );
+          navigation.goBack();
+        } else {
+          Alert.alert(
+            'Error',
+            'Gagal update data!'
+          );
+        }
+      }
+
+      // MODE TAMBAH = POST
+      else {
+        const response = await fetch(
+          'http://10.216.231.205:3000/emergencies',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+
+        if (response.ok) {
+          Alert.alert(
+            'Berhasil',
+            'Laporan darurat berhasil dikirim!'
+          );
+          setName('');
+          setCondition('');
+          setLocation('');
+          setNote('');
+          navigation.goBack();
+        } else {
+          Alert.alert(
+            'Error',
+            'Gagal mengirim data!'
+          );
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert(
+        'Error',
+        'Server tidak terhubung!'
+      );
+    }
   };
 
   return (
-
     <ScrollView style={styles.container}>
-
       <Text style={styles.title}>
-        Form Laporan Darurat
+        {editData
+          ? 'Edit Laporan Darurat'
+          : 'Form Laporan Darurat'}
       </Text>
 
       <TextInput
@@ -79,23 +159,24 @@ export default function EmergencyForm() {
         style={styles.button}
         onPress={handleSubmit}
       >
+
         <Text style={styles.buttonText}>
-          Kirim Laporan
+
+          {editData
+            ? 'Update Data'
+            : 'Kirim Laporan'}
         </Text>
       </TouchableOpacity>
-
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
   },
-
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -103,7 +184,6 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     marginTop: 20,
   },
-
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -112,12 +192,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
   },
-
   textArea: {
     height: 120,
     textAlignVertical: 'top',
   },
-
   button: {
     backgroundColor: '#E63946',
     padding: 15,
@@ -125,11 +203,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
   },
-
 });
