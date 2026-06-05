@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase } from '../lib/supabase';
 import {
   View,
   Text,
@@ -21,6 +22,26 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const handleLogin = async () => {
+
+  if (!email || !password) {
+    alert('Email dan Password wajib diisi');
+    return;
+  }
+
+  const { data, error } =
+    await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  navigation.replace('MainApp');
+};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -79,11 +100,24 @@ export default function Login({ navigation }) {
             </View>
             <TouchableOpacity
               style={styles.btnLogin}
-              onPress={() => navigation.replace('MainApp')}
+              onPress={handleLogin}
               activeOpacity={0.8}
             >
               <Text style={styles.btnText}>
                 Masuk
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Register')}
+            >
+              <Text
+                style={{
+                  textAlign: 'center',
+                  marginTop: 20,
+                  color: '#E63946',
+                }}
+              >
+                Belum punya akun? Daftar
               </Text>
             </TouchableOpacity>
           </View>

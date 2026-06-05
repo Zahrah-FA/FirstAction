@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase } from '../lib/supabase';
 import {
   View,
   Text,
@@ -15,34 +16,28 @@ import { Setting2 } from 'iconsax-react-native';
 export default function Profile({ navigation }) {
 
   const [menuVisible, setMenuVisible] = useState(false);
-
   const [name, setName] = useState('Srikandi Medis');
-
   const [role, setRole] = useState('Relawan Medis FirstAction');
-
   const [isEditing, setIsEditing] = useState(false);
+  const handleLogout = async () => {
+  await supabase.auth.signOut();
+  navigation.replace('Login');
+};
 
   return (
 
     <ScrollView style={styles.container}>
-
       {/* Header */}
-
       <View style={styles.header}>
-
         <View style={styles.profileInfo}>
-
           <Image
             source={{
               uri: 'https://ui-avatars.com/api/?name=Srikandi+Medis&background=E63946&color=fff&size=128'
             }}
             style={styles.profileImage}
           />
-
           <View style={styles.headerText}>
-
             {isEditing ? (
-
               <>
                 <TextInput
                   style={styles.input}
@@ -56,9 +51,7 @@ export default function Profile({ navigation }) {
                   onChangeText={setRole}
                 />
               </>
-
             ) : (
-
               <>
                 <Text style={styles.name}>
                   {name}
@@ -68,34 +61,25 @@ export default function Profile({ navigation }) {
                   {role}
                 </Text>
               </>
-
             )}
-
           </View>
-
         </View>
 
         {/* Tombol Gerigi */}
-
         <TouchableOpacity
           style={styles.settingButton}
           onPress={() => setMenuVisible(true)}
         >
-
           <Setting2
             size="28"
             color="#1D3557"
             variant="Linear"
           />
-
         </TouchableOpacity>
-
       </View>
 
       {/* Stats */}
-
       <View style={styles.statsContainer}>
-
         <View style={styles.statBox}>
           <Text style={styles.statNumber}>12</Text>
           <Text style={styles.statLabel}>Sertifikat</Text>
@@ -110,13 +94,10 @@ export default function Profile({ navigation }) {
           <Text style={styles.statNumber}>150</Text>
           <Text style={styles.statLabel}>Poin</Text>
         </View>
-
       </View>
 
       {/* Tentang Saya */}
-
       <View style={styles.section}>
-
         <Text style={styles.sectionTitle}>
           Tentang Saya
         </Text>
@@ -125,57 +106,40 @@ export default function Profile({ navigation }) {
           Relawan Medis yang fokus pada pertolongan pertama dan keselamatan publik.
           Aktif dalam riset machine learning untuk deteksi kesehatan.
         </Text>
-
       </View>
 
       {/* Tombol Edit */}
-
       <TouchableOpacity
         style={styles.editButton}
         onPress={() => setIsEditing(!isEditing)}
       >
-
         <Text style={styles.editButtonText}>
           {isEditing ? 'Simpan Profil' : 'Edit Profil'}
         </Text>
-
       </TouchableOpacity>
 
       {/* Modal Logout */}
-
       <Modal
         visible={menuVisible}
         transparent
         animationType="fade"
       >
-
         <TouchableOpacity
           style={styles.overlay}
           onPress={() => setMenuVisible(false)}
         >
-
           <View style={styles.menuContainer}>
-
             <TouchableOpacity
-              style={styles.menuItem}
-              onPress={() => {
-                setMenuVisible(false);
-                navigation.replace('Login');
-              }}
+              style={styles.logoutButton}
+              onPress={handleLogout}
             >
-
               <Text style={styles.logoutText}>
                 Logout
               </Text>
-
             </TouchableOpacity>
-
           </View>
-
         </TouchableOpacity>
-
       </Modal>
-
     </ScrollView>
   );
 }

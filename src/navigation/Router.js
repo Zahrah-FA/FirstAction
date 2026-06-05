@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-
+import Register from '../screens/Register';
 import HomeScreen from '../screens/HomeScreen';
 import Profile from '../screens/Profile';
 import DetailScreen from '../screens/DetailScreen';
@@ -56,6 +56,12 @@ export default function Router() {
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Register"
+        component={Register}
         options={{ headerShown: false }}
       />
 
